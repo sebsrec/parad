@@ -5,7 +5,7 @@
 
 class Monster {
 public:
-    Monster(const std::string& name, int level, int healthPoints, int attackPower, int defensePower);
+    Monster(std::string  name, int level, int healthPoints, int attackPower, int defensePower);
     virtual ~Monster();
 
     // Getters
@@ -18,6 +18,8 @@ public:
     // Actions
     virtual void attack(Monster* target);
     virtual void takeDamage(int amount);
+    virtual void reduceDefense(int amount); //for GrassMonster
+
 
 protected:
     std::string name;
@@ -30,7 +32,7 @@ protected:
 class FireMonster : public Monster {
 public:
     FireMonster(const std::string& name, int level, int healthPoints, int attackPower, int defensePower);
-    virtual ~FireMonster();
+    ~FireMonster() override;
 
     void attack(Monster* target) override;
 };
@@ -38,7 +40,7 @@ public:
 class WaterMonster : public Monster {
 public:
     WaterMonster(const std::string& name, int level, int healthPoints, int attackPower, int defensePower);
-    virtual ~WaterMonster();
+    ~WaterMonster() override;
 
     void attack(Monster* target) override;
 };
@@ -46,9 +48,17 @@ public:
 class GrassMonster : public Monster {
 public:
     GrassMonster(const std::string& name, int level, int healthPoints, int attackPower, int defensePower);
-    virtual ~GrassMonster();
+    ~GrassMonster() override;
 
     void attack(Monster* target) override;
 };
+
+/*class RockMonster : public Monster {
+public:
+    RockMonster(const std::string& name, int level, int healthPoints, int attackPower, int defensePower);
+    ~RockMonster() override;
+
+    void attack(Monster* target) override;
+};*/
 
 #endif  // MONSTER_H
