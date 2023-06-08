@@ -1,10 +1,10 @@
 #include "monster.h"
 #include <iostream>
 
-Monster::Monster(const std::string& name, int level)
-        : name(name), level(level), healthPoints(100), attackPower(10), defensePower(10) {}
+Monster::Monster(const std::string& name, int level, int healthPoints, int attackPower, int defense)
+        : name(name), level (level), healthPoints(healthPoints), attackPower(attackPower), defensePower(defense) {}
 
-Monster::~Monster() {}
+Monster::~Monster() = default;
 
 std::string Monster::getName() const {
     return name;
@@ -27,7 +27,9 @@ int Monster::getDefensePower() const {
 }
 
 void Monster::attack(Monster* target) {
-    int damage = attackPower - target->getDefensePower();
+    int damage = 2 * getLevel() + getAttackPower() - target->getDefensePower() ;
+   // std::cout << "Damage: " <<  2 * getLevel() << "+" << getAttackPower() << "-" << target->getDefensePower() << "=" << damage << "\n";
+
     if (damage > 0) {
         target->takeDamage(damage);
         std::cout << name << " attacked " << target->getName() << " for " << damage << " damage.\n";
@@ -43,8 +45,8 @@ void Monster::takeDamage(int amount) {
     }
 }
 
-FireMonster::FireMonster(const std::string& name, int level)
-        : Monster(name, level) {}
+FireMonster::FireMonster(const std::string &name, int level, int healthPoints, int attackPower, int defensePower)
+        : Monster(name, level, healthPoints, attackPower, defensePower) {}
 
 FireMonster::~FireMonster() {}
 
@@ -53,8 +55,8 @@ void FireMonster::attack(Monster* target) {
     // Additional logic for FireMonster attack
 }
 
-WaterMonster::WaterMonster(const std::string& name, int level)
-        : Monster(name, level) {}
+WaterMonster::WaterMonster(const std::string &name, int level, int healthPoints, int attackPower, int defensePower)
+        : Monster(name, level, healthPoints, attackPower, defensePower) {}
 
 WaterMonster::~WaterMonster() {}
 
@@ -63,8 +65,10 @@ void WaterMonster::attack(Monster* target) {
     // Additional logic for WaterMonster attack
 }
 
-GrassMonster::GrassMonster(const std::string& name, int level)
-        : Monster(name, level) {}
+
+
+GrassMonster::GrassMonster(const std::string &name, int level, int healthPoints, int attackPower, int defensePower)
+        : Monster(name, level, healthPoints, attackPower, defensePower) {}
 
 GrassMonster::~GrassMonster() {}
 
