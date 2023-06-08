@@ -28,9 +28,3 @@ void Trainer::addMonster(Monster* monster) {
     monsters.push_back(monster);
 }
 
-void Trainer::removeMonster(int index) {
-    if (index >= 0 && index < monsters.size()) {
-        delete monsters[index];
-        monsters.erase(monsters.begin() + index);
-    }
-}

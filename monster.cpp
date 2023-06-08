@@ -30,8 +30,7 @@ int Monster::getDefensePower() const {
 }
 
 void Monster::attack(Monster* target) {
-    int damage = 2 * getLevel() + getAttackPower() - target->getDefensePower() ;
-    // std::cout << "Damage: " <<  2 * getLevel() << "+" << getAttackPower() << "-" << target->getDefensePower() << "=" << damage << "\n";
+    int damage = 2 * getLevel() + getAttackPower() - target->getDefensePower() ; //Default attack damage
 
     if (damage > 0) {
         target->takeDamage(damage);
@@ -54,6 +53,7 @@ void Monster::reduceDefense(int amount) {
         defensePower = 0;
     }
 }
+
 double odds(){
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -65,7 +65,7 @@ double odds(){
 FireMonster::FireMonster(const std::string &name, int level, int healthPoints, int attackPower, int defensePower)
         : Monster(name, level, healthPoints, attackPower, defensePower) {}
 
-FireMonster::~FireMonster() {}
+FireMonster::~FireMonster() = default;
 
 void FireMonster::attack(Monster* target) {
     // Call the base class's attack function
@@ -83,11 +83,10 @@ void FireMonster::attack(Monster* target) {
 WaterMonster::WaterMonster(const std::string &name, int level, int healthPoints, int attackPower, int defensePower)
         : Monster(name, level, healthPoints, attackPower, defensePower) {}
 
-WaterMonster::~WaterMonster() {}
+WaterMonster::~WaterMonster() = default;
 
 void WaterMonster::attack(Monster* target) {
     Monster::attack(target);
-    // Additional logic for WaterMonster attack
     // 30% chance Lifesteal
 
     double  chance= odds();
@@ -102,11 +101,10 @@ void WaterMonster::attack(Monster* target) {
 GrassMonster::GrassMonster(const std::string &name, int level, int healthPoints, int attackPower, int defensePower)
         : Monster(name, level, healthPoints, attackPower, defensePower) {}
 
-GrassMonster::~GrassMonster() {}
+GrassMonster::~GrassMonster() = default;
 
 void GrassMonster::attack(Monster* target) {
     Monster::attack(target);
-    // Additional logic for GrassMonster attack
     // 70% chance Armor reduction
 
     double  chance = odds();
@@ -116,3 +114,21 @@ void GrassMonster::attack(Monster* target) {
         std::cout << getName() << " negates " << target->getName() << "'s armor!\n";
     }
 }
+
+RockMonster::RockMonster(const std::string &name, int level, int healthPoints, int attackPower, int defensePower)
+        : Monster(name, level, healthPoints, attackPower, defensePower) {}
+
+RockMonster::~RockMonster() = default;
+
+void RockMonster::attack(Monster* target) {
+    Monster::attack(target);
+    // 70% Damage Block
+
+    double  chance = odds();
+    if (chance <= 0.70) {
+        takeDamage(0);
+        std::cout << getName() << " blocks " << target->getName() << "'s attack!\n";
+    }
+}
+
+

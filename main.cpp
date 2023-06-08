@@ -3,26 +3,30 @@
 #include <iostream>
 #include <chrono>
 #include <thread>
+#include "selectMonster.h"
+
 
 
 int main() {
+    //create trainer instances
     Trainer player1("Player 1");
     Trainer player2("Player 2");
 
-    auto* fireMonster = new FireMonster("Flareon", 5, 200, 30, 10);
+    //create monster instances
+    auto* fireMonster = new FireMonster("Dragon", 5, 200, 30, 10);
     auto* waterMonster = new WaterMonster("Vaporeon", 5, 200, 20, 20);
-    auto* grassMonster = new GrassMonster("Leafeon", 5, 200, 25, 15);
+    auto* grassMonster = new GrassMonster("Leafy", 5, 200, 25, 15);
+    auto* rockMonster = new RockMonster("Rocko", 5, 200, 25, 15);
 
-    player1.addMonster(fireMonster);
-    player2.addMonster(waterMonster);
-    player2.addMonster(grassMonster);
+    //add monsters to stl container
+    player1.addMonster(fireMonster, rockMonster, waterMonster, grassMonster);
+    player2.addMonster(fireMonster, rockMonster, waterMonster, grassMonster);
 
-    std::cout << player1.getName() << " has " << player1.getNumMonsters() << " monster(s).\n";
-    std::cout << player2.getName() << " has " << player2.getNumMonsters() << " monster(s).\n";
+    //select monsters to fight
+    Monster* player1Monster = selectMonster(player1);
+    Monster* player2Monster = selectMonster(player2);
 
-    Monster *player1Monster = player1.getMonster(0);
-    Monster *player2Monster = player2.getMonster(1);
-
+    //fight until health reaches 0
     while (player1Monster->getHealthPoints() > 0 && player2Monster->getHealthPoints() > 0) {
         player1Monster->attack(player2Monster);
         player2Monster->attack(player1Monster);
@@ -39,13 +43,13 @@ int main() {
         }
     }
 
-    player1.removeMonster(0);
-    player2.removeMonster(0);
+    player1.removeMonster();
+    player2.removeMonster();
 
     delete fireMonster;
     delete waterMonster;
     delete grassMonster;
+    delete rockMonster;
 
     return 0;
 }
-
