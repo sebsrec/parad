@@ -5,12 +5,13 @@
 
 class Item {
 public:
-    Item(const std::string& name, int bonusDamage);
+    Item(const std::string& name, int bonusDamage, int bonusDefense);
     ~Item();
 
     // Getters
     std::string getName() const;
     int getBonusDamage() const;
+    int getBonusDefense() const;
 
     // Setter
     void setItem(Item* newItem);
@@ -18,6 +19,8 @@ public:
 private:
     std::string name;
     int bonusDamage;
+    int bonusDefense;
+
     Item* item;
 };
 

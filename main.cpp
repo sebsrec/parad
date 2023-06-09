@@ -20,8 +20,9 @@ int main() {
     auto* poisonMonster = new PoisonMonster("Venomancer", 5, 200, 25, 15);
 
     //create item instances
-    Item* itemP1 = new Item("Sword", 20);
-    Item* itemP2 = new Item("Shield", 20);
+    Item* itemP1 = new Item("Sword", 20, 0);
+    Item* itemP2 = new Item("Shield", 0, 50);
+    //add item equipped message...
 
     //add monsters to stl container
     player1.addMonster(fireMonster, rockMonster, waterMonster, grassMonster, poisonMonster);
@@ -35,10 +36,16 @@ int main() {
     player1Monster->equipItem(itemP1);
     player1Monster->equipItem(itemP2);
 
+    std::cout << "player1 has: " <<  itemP1->getName()<< std::endl;
+    std::cout << "player2 has: " <<  itemP2->getName() << std::endl;
+
+
+
+
     //fight until health reaches 0
     while (player1Monster->getHealthPoints() > 0 && player2Monster->getHealthPoints() > 0) {
 
-        std::this_thread::sleep_for(std::chrono::seconds(1));
+        std::this_thread::sleep_for(std::chrono::seconds(1)); //wait command, more readable console output
         std::cout << "\n" << player1Monster->getName() << "'s HP: " << player1Monster->getHealthPoints() << std::endl;
         std::cout << player2Monster->getName() << "'s HP: " << player2Monster->getHealthPoints() << "\n" << std::endl;
 
@@ -69,6 +76,8 @@ int main() {
     delete grassMonster;
     delete rockMonster;
     delete poisonMonster;
+    delete itemP1;
+    delete itemP2;
 
     //delete item;
 

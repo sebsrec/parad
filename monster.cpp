@@ -34,7 +34,7 @@ void Monster::attack(Monster* target) {
 
     // Check if the monster has an equipped item
     if (equippedItem != nullptr) {
-        damage += equippedItem->getBonusDamage(); // Add item damage to the attack
+        damage = damage +(  equippedItem->getBonusDamage() - equippedItem->getBonusDefense()); // Add/reduce item damage to the attack
     }
 
     damage -= target->getDefensePower(); //Default attack damage + item damage
