@@ -70,11 +70,11 @@ FireMonster::~FireMonster() = default;
 void FireMonster::attack(Monster* target) {
     // Call the base class's attack function
     Monster::attack(target);
-    // critical strike 25% chance, 1.5x dmg
+    // critical strike 25% chance
     double  chance= odds();
 
     if (chance <= 0.25) {
-        int criticalDamage =   getLevel() + 1.5 * (getAttackPower());
+        int criticalDamage =   getLevel() + 1.3 * (getAttackPower());
         target->takeDamage(criticalDamage);
         std::cout << getName() << " lands a critical strike on " << target->getName() << " for " << criticalDamage << " damage!\n";
     }
@@ -128,6 +128,23 @@ void RockMonster::attack(Monster* target) {
     if (chance <= 0.70) {
         takeDamage(0);
         std::cout << getName() << " blocks " << target->getName() << "'s attack!\n";
+    }
+}
+
+PoisonMonster::PoisonMonster(const std::string &name, int level, int healthPoints, int attackPower, int defensePower)
+        : Monster(name, level, healthPoints, attackPower, defensePower) {}
+
+PoisonMonster::~PoisonMonster() = default;
+
+void PoisonMonster::attack(Monster* target) {
+    Monster::attack(target);
+    // 10% Poison insta-kill!
+
+    double  chance = odds();
+    if (chance <= 0.05) {
+        int criticalDamage =   target->getHealthPoints();
+        target->takeDamage(criticalDamage);
+        std::cout << getName() << " lands a FATAL strike on " << target->getName() << " for " << criticalDamage << " damage!\n";
     }
 }
 

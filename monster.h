@@ -53,12 +53,19 @@ public:
     void attack(Monster* target) override;
 };
 
-/*class RockMonster : public Monster {
+class RockMonster : public Monster {
 public:
     RockMonster(const std::string& name, int level, int healthPoints, int attackPower, int defensePower);
     ~RockMonster() override;
 
     void attack(Monster* target) override;
-};*/
+};
 
+class PoisonMonster : public Monster {
+public:
+    PoisonMonster(const std::string& name, int level, int healthPoints, int attackPower, int defensePower);
+    ~PoisonMonster() override;
+
+    void attack(Monster* target) override;
+};
 #endif  // MONSTER_H
