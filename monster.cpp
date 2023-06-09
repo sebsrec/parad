@@ -5,7 +5,7 @@
 
 
 Monster::Monster(std::string  name, int level, int healthPoints, int attackPower, int defense)
-        : name(std::move(name)), level (level), healthPoints(healthPoints), attackPower(attackPower), defensePower(defense) {}
+        : name(std::move(name)), level (level), healthPoints(healthPoints), attackPower(attackPower), defensePower(defense),equippedItem(nullptr) {}
 
 Monster::~Monster() = default;
 
@@ -30,7 +30,14 @@ int Monster::getDefensePower() const {
 }
 
 void Monster::attack(Monster* target) {
-    int damage = 2 * getLevel() + getAttackPower() - target->getDefensePower() ; //Default attack damage
+    int damage = 2 * getLevel() + getAttackPower(); // Default attack damage
+
+    // Check if the monster has an equipped item
+    if (equippedItem != nullptr) {
+        damage += equippedItem->getBonusDamage(); // Add item damage to the attack
+    }
+
+    damage -= target->getDefensePower(); //Default attack damage + item damage
 
     if (damage > 0) {
         target->takeDamage(damage);
@@ -45,6 +52,10 @@ void Monster::takeDamage(int amount) {
     if (healthPoints < 0) {
         healthPoints = 0;
     }
+}
+
+void Monster::equipItem(Item* item) {
+    equippedItem = item;
 }
 
 void Monster::reduceDefense(int amount) {

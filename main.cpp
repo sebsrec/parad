@@ -19,6 +19,9 @@ int main() {
     auto* rockMonster = new RockMonster("Rocko", 5, 200, 25, 15);
     auto* poisonMonster = new PoisonMonster("Venomancer", 5, 200, 25, 15);
 
+    //create item instances
+    Item* itemP1 = new Item("Sword", 20);
+    Item* itemP2 = new Item("Shield", 20);
 
     //add monsters to stl container
     player1.addMonster(fireMonster, rockMonster, waterMonster, grassMonster, poisonMonster);
@@ -28,12 +31,16 @@ int main() {
     Monster* player1Monster = selectMonster(player1);
     Monster* player2Monster = selectMonster(player2);
 
+    //equip items to monsters
+    player1Monster->equipItem(itemP1);
+    player1Monster->equipItem(itemP2);
+
     //fight until health reaches 0
     while (player1Monster->getHealthPoints() > 0 && player2Monster->getHealthPoints() > 0) {
 
         std::this_thread::sleep_for(std::chrono::seconds(1));
         std::cout << "\n" << player1Monster->getName() << "'s HP: " << player1Monster->getHealthPoints() << std::endl;
-        std::cout << player2Monster->getName() << "'s HP: " << player2Monster->getHealthPoints() << std::endl;
+        std::cout << player2Monster->getName() << "'s HP: " << player2Monster->getHealthPoints() << "\n" << std::endl;
 
         std::this_thread::sleep_for(std::chrono::seconds(1));
         player1Monster->attack(player2Monster);
@@ -62,6 +69,8 @@ int main() {
     delete grassMonster;
     delete rockMonster;
     delete poisonMonster;
+
+    //delete item;
 
     return 0;
 }

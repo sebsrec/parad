@@ -2,6 +2,7 @@
 #define MONSTER_H
 
 #include <string>
+#include "item.h"
 
 class Monster {
 public:
@@ -18,7 +19,9 @@ public:
     // Actions
     virtual void attack(Monster* target);
     virtual void takeDamage(int amount);
-    virtual void reduceDefense(int amount); //for GrassMonster
+    virtual void reduceDefense(int amount);
+    void equipItem(Item* item);  // function to equip an item
+
 
 
 protected:
@@ -27,6 +30,8 @@ protected:
     int healthPoints;
     int attackPower;
     int defensePower;
+    Item* equippedItem;  // New member variable to hold the equipped item
+
 };
 
 class FireMonster : public Monster {
@@ -68,4 +73,5 @@ public:
 
     void attack(Monster* target) override;
 };
+
 #endif  // MONSTER_H

@@ -25,7 +25,7 @@ Monster *selectMonster(const Trainer &player) {
             selectedMonster = player.getMonster(0);
             break;
         case 2:
-            std::cout << "You selected Vaporeon.\n";
+            std::cout << "You selected Aqua.\n";
             selectedMonster = player.getMonster(1);
             break;
         case 3:
