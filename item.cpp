@@ -1,7 +1,7 @@
 #include "item.h"
 
-Item::Item(const std::string& name, int bonusDamage, int bonusDefense)
-        : name(name), bonusDamage(bonusDamage), bonusDefense(bonusDefense), item(nullptr) {}
+Item::Item(const std::string& name, int bonusDamage, int bonusDefense, int bonusHealth)
+        : name(name), bonusDamage(bonusDamage), bonusDefense(bonusDefense), bonusHealth(bonusHealth), item(nullptr) {}
 
 Item::~Item() = default;
 
@@ -14,6 +14,10 @@ int Item::getBonusDamage() const {
 }
 int Item::getBonusDefense() const {
     return bonusDefense;
+}
+
+int Item::getBonusHealth() const {
+    return bonusHealth;
 }
 
 void Item::setItem(Item* newItem) {

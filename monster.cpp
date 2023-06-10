@@ -18,7 +18,14 @@ int Monster::getLevel() const {
 }
 
 int Monster::getHealthPoints() const {
-    return healthPoints;
+    int totalHealth = healthPoints;
+
+    // check if monster has an equipped item
+    if (equippedItem != nullptr) {
+        totalHealth += equippedItem->getBonusHealth(); // add item bonus health
+    }
+
+    return totalHealth;
 }
 
 int Monster::getAttackPower() const {
@@ -48,10 +55,13 @@ void Monster::attack(Monster* target) {
 }
 
 void Monster::takeDamage(int amount) {
+
     healthPoints -= amount;
+
     if (healthPoints < 0) {
         healthPoints = 0;
     }
+
 }
 
 void Monster::equipItem(Item* item) {
@@ -65,7 +75,7 @@ void Monster::reduceDefense(int amount) {
     }
 }
 
-double odds(){
+double odds(){ //random number generator
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_real_distribution<> dis(0.0, 1.0);
