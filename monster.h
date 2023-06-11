@@ -3,6 +3,8 @@
 
 #include <string>
 #include "item.h"
+#include "skill.h"// save the skill
+
 
 class Monster {
 public:

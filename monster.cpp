@@ -7,6 +7,7 @@
 Monster::Monster(std::string  name, int level, int healthPoints, int attackPower, int defense)
         : name(std::move(name)), level (level), healthPoints(healthPoints), attackPower(attackPower), defensePower(defense),equippedItem(nullptr) {}
 
+
 Monster::~Monster() = default;
 
 std::string Monster::getName() const {

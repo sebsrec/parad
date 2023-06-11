@@ -4,6 +4,8 @@
 #include <chrono>
 #include <thread>
 #include "selectMonster.h"
+#include "skilltraining.h "
+#include "skill.h"
 
 
 int main() {
