@@ -1,22 +1,60 @@
-#include <string>
+#include "skill.h"
 
-class Skill {
-public:
-    Skill(const std::string& name, int attackBoost, int defenseBoost, int healthBoost, int resourceCost)
-            : name(name), attackBoost(attackBoost), defenseBoost(defenseBoost),
-              healthBoost(healthBoost), resourceCost(resourceCost) {}
+Skill::Skill(const std::string& name, int attackBoost, int defenseBoost, int healthBoost, int resourceCost)
+    : name(name), attackBoost(attackBoost), defenseBoost(defenseBoost), healthBoost(healthBoost), resourceCost(resourceCost) {}
 
-    // Getter函数
-    std::string getName() const { return name; }
-    int getAttackBoost() const { return attackBoost; }
-    int getDefenseBoost() const { return defenseBoost; }
-    int getHealthBoost() const { return healthBoost; }
-    int getResourceCost() const { return resourceCost; }
+std::string Skill::getName() const {
+    return name;
+}
 
-private:
-    std::string name;
-    int attackBoost;
-    int defenseBoost;
-    int healthBoost;
-    int resourceCost;
-};
+int Skill::getAttackBoost() const {
+    return attackBoost;
+}
+
+int Skill::getDefenseBoost() const {
+    return defenseBoost;
+}
+
+int Skill::getHealthBoost() const {
+    return healthBoost;
+}
+
+int Skill::getResourceCost() const {
+    return resourceCost;
+}
+
+SkillSet::SkillSet() {}
+
+SkillSet::~SkillSet() {}
+
+void SkillSet::addSkill(const Skill& skill) {
+    skills.push_back(skill);
+}
+
+void SkillSet::removeSkill(const std::string& name) {
+    skills.erase(std::remove_if(skills.begin(), skills.end(), [&name](const Skill& skill) {
+        return skill.getName() == name;
+    }), skills.end());
+}
+
+bool SkillSet::hasSkill(const std::string& name) const {
+    return std::find_if(skills.begin(), skills.end(), [&name](const Skill& skill) {
+        return skill.getName() == name;
+    }) != skills.end();
+}
+
+Skill* SkillSet::getSkill(const std::string& name) {
+    auto it = std::find_if(skills.begin(), skills.end(), [&name](const Skill& skill) {
+        return skill.getName() == name;
+    });
+
+    if (it != skills.end()) {
+        return &(*it);
+    }
+
+    return nullptr;
+}
+
+const std::vector<Skill>& SkillSet::getAllSkills() const {
+    return skills;
+}

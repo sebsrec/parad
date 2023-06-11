@@ -1,29 +1,32 @@
 #include "skilltraining.h"
-#include <iostream>
 
-Player::Player() : attack(10), defense(10), health(100), resources(100) {}
-
-void Player::trainMonster(Monster& monster, const Skill& skill) {
-    // check the resource is enough
-    if (resources < skill.getResourceCost()) {
-        std::cout << "no resource，u can not training " << std::endl;
-        return;
-    }
-
-    // 消耗资源
-    resources -= skill.getResourceCost();
-
-    // 提升怪物属性
-    increaseMonsterAttributes(monster, skill.getAttackBoost(), skill.getDefenseBoost(), skill.getHealthBoost());
-
-    std::cout << "training finish ，the monster is stronger" << std::endl;
+SkillTraining::SkillTraining() : gen(rd()), dis(0, 99) {
+     // Initialize random number generator
+    // Here, it assumes you have a function to get available skills list
+    skills = getAvailableSkills();
 }
 
-void Player::increaseMonsterAttributes(Monster& monster, int attackBoost, int defenseBoost, int healthBoost) {
+void SkillTraining::trainMonster(Monster& monster, const Skill& skill) {
+    // Implement the training logic for the monster
+    // Enhance the monster's attributes and consume resources, etc.
+    int attackBoost = skill.getAttackBoost();
+    int defenseBoost = skill.getDefenseBoost();
+    int healthBoost = skill.getHealthBoost();
+    int resourceCost = skill.getResourceCost();
+
+    if (resourceCost <= monster.getResources()) {
+        // Check if the resources are sufficient
+        monster.decreaseResources(resourceCost);
+        increaseMonsterAttributes(monster, attackBoost, defenseBoost, healthBoost);
+    } else {
+        // Logic for insufficient resources
+        // You can throw an exception or output an error message, etc.
+    }
+}
+
+void SkillTraining::increaseMonsterAttributes(Monster& monster, int attackBoost, int defenseBoost, int healthBoost) {
+    // Increase the monster's attributes
     monster.increaseAttack(attackBoost);
     monster.increaseDefense(defenseBoost);
     monster.increaseHealth(healthBoost);
 }
-//
-// Created by 李任骁 on 2023/6/11.
-//

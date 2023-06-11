@@ -2,6 +2,7 @@
 #define SKILL_H
 
 #include <string>
+#include <vector>
 
 class Skill {
 public:
@@ -19,6 +20,21 @@ private:
     int defenseBoost;
     int healthBoost;
     int resourceCost;
+};
+
+class SkillSet {
+public:
+    SkillSet();
+    ~SkillSet();
+
+    void addSkill(const Skill& skill);
+    void removeSkill(const std::string& name);
+    bool hasSkill(const std::string& name) const;
+    Skill* getSkill(const std::string& name);
+    const std::vector<Skill>& getAllSkills() const;
+
+private:
+    std::vector<Skill> skills;
 };
 
 #endif  // SKILL_H
