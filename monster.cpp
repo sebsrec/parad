@@ -87,6 +87,10 @@ double odds(){ //random number generator
     return chance;
 }
 
+Item* Monster::getEquippedItem() const {
+    return equippedItem;
+}
+
 FireMonster::FireMonster(const std::string &name, int level, int healthPoints, int attackPower, int defensePower)
         : Monster(name, level, healthPoints, attackPower, defensePower) {}
 

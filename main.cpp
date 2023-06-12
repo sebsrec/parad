@@ -6,6 +6,9 @@
 #include <chrono>
 #include <thread>
 #include "selectMonster.h"
+#include <random>
+
+
 
 
 int main() {
@@ -21,9 +24,10 @@ int main() {
     auto *poisonMonster = new PoisonMonster("Venomancer", 5, 100, 20, 15);
 
     //create item instances
-    //Item *itemP1 = new Item("Damage Potion (extra damage)", 20, 0, 0);
-    Item *itemP1 = new Item("Health Potion (+50 extra health)", 0, 0, 50);
-    Item *itemP2 = new Item("Shield Potion (+50 extra defense)", 0, 50, 0);
+    std::vector<Item*> items;
+    items.push_back(new Item("Health Potion (+50 extra health)", 0, 0, 50));
+    items.push_back(new Item("Shield Potion (+50 extra defense)", 0, 50, 0));
+    items.push_back(new Item("Damage Potion (+20 extra damage)", 20, 0, 0));
 
     //add monsters to stl container
     player1.addMonster(fireMonster, rockMonster, waterMonster, grassMonster, poisonMonster);
@@ -33,13 +37,18 @@ int main() {
     Monster *player1Monster = selectMonster(player1);
     Monster *player2Monster = selectMonster(player2);
 
+    // Randomly give an item to a monster
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(0, items.size() - 1);
 
+    Item* randomItemP1 = items[dis(gen)];
+    Item* randomItemP2 = items[dis(gen)];
+    player1Monster->equipItem(randomItemP1);
+    player2Monster->equipItem(randomItemP2);
 
-    //equip items to monsters
-    player1Monster->equipItem(itemP1);
-    player2Monster->equipItem(itemP2);
-    std::cout << "player1 has: " << itemP1->getName() << std::endl;
-    std::cout << "player2 has: " << itemP2->getName() << std::endl;
+    std::cout << "Player 1 has: " << player1Monster->getEquippedItem()->getName() << std::endl;
+    std::cout << "Player 2 has: " << player2Monster->getEquippedItem()->getName() << std::endl;
 
     // Create an instance of Arena, always random
     Arena arena(getRandomArenaType());
@@ -85,8 +94,6 @@ int main() {
     delete grassMonster;
     delete rockMonster;
     delete poisonMonster;
-    delete itemP1;
-    delete itemP2;
-
+   //>> Note: Monster instances will delete the Item objects in their destructors.
     return 0;
 }

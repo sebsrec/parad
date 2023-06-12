@@ -21,6 +21,9 @@ public:
 
     int getDefensePower() const;
 
+    Item* getEquippedItem() const;
+
+
     // Actions
     virtual void attack(Monster *target);
 
