@@ -33,6 +33,8 @@ int main() {
     Monster *player1Monster = selectMonster(player1);
     Monster *player2Monster = selectMonster(player2);
 
+
+
     //equip items to monsters
     player1Monster->equipItem(itemP1);
     player2Monster->equipItem(itemP2);
