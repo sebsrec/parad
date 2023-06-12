@@ -43,6 +43,7 @@ void Monster::attack(Monster* target) {
     }
     int damage = 2 * getLevel() + getAttackPower(); // Default attack damage
 
+
     // Check if the monster has an equipped item
     if (equippedItem != nullptr) {
         damage = damage +(  equippedItem->getBonusDamage() - equippedItem->getBonusDefense()); // Add/reduce item damage to the attack
@@ -85,6 +86,10 @@ double odds(){ //random number generator
     std::uniform_real_distribution<> dis(0.0, 1.0);
     double chance = dis(gen);
     return chance;
+}
+
+Item* Monster::getEquippedItem() const {
+    return equippedItem;
 }
 
 FireMonster::FireMonster(const std::string &name, int level, int healthPoints, int attackPower, int defensePower)
@@ -163,14 +168,12 @@ PoisonMonster::~PoisonMonster() = default;
 
 void PoisonMonster::attack(Monster* target) {
     Monster::attack(target);
-    // 10% Poison insta-kill!
-
+    // 20% Poison insta-kill!
     double  chance = odds();
-    if (chance <= 0.1) {
+    if (chance <= 0.20) {
         int criticalDamage =   target->getHealthPoints();
         target->takeDamage(criticalDamage);
-        std::cout << getName() << " Poisons " << target->getName()<< "and base health points are negated! Total damage: " << criticalDamage << " !\n";
+        std::cout << getName() << " Poisons " << target->getName()<< " and base health points are negated! Total damage: " << criticalDamage << "!\n";
     }
 }
-
 

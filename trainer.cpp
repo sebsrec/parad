@@ -27,4 +27,3 @@ Monster* Trainer::getMonster(int index) const {
 void Trainer::addMonster(Monster* monster) {
     monsters.push_back(monster);
 }
-

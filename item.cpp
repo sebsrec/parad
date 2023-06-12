@@ -20,6 +20,6 @@ int Item::getBonusHealth() const {
     return bonusHealth;
 }
 
-void Item::setItem(Item* newItem) {
+void Item::setItem(Item* newItem) {//Don't delete! doesn't work if removed...
     item = newItem;
 }
