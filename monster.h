@@ -2,6 +2,7 @@
 #define MONSTER_H
 
 #include <string>
+#include <random>
 #include "item.h"
 
 class Monster {
@@ -81,6 +82,13 @@ public:
     ~RockMonster() override;
 
     void attack(Monster *target) override;
+
+    static Item* getRandomItem(const std::vector<Item*>& items) {
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<> dis(0, items.size() - 1);
+        return items[dis(gen)];
+    }
 };
 
 class PoisonMonster : public Monster {
