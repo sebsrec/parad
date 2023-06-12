@@ -1,4 +1,5 @@
 #include "monster.h"
+#include "arena.h"
 #include <iostream>
 #include <random>
 #include <utility>
@@ -37,6 +38,9 @@ int Monster::getDefensePower() const {
 }
 
 void Monster::attack(Monster* target) {
+    if (healthPoints <= 0) { // Check monster health before attacking (strike after death solved!)
+        return;
+    }
     int damage = 2 * getLevel() + getAttackPower(); // Default attack damage
 
     // Check if the monster has an equipped item
@@ -162,10 +166,10 @@ void PoisonMonster::attack(Monster* target) {
     // 10% Poison insta-kill!
 
     double  chance = odds();
-    if (chance <= 0.05) {
+    if (chance <= 0.1) {
         int criticalDamage =   target->getHealthPoints();
         target->takeDamage(criticalDamage);
-        std::cout << getName() << " lands a FATAL strike on " << target->getName() << " for " << criticalDamage << " damage!\n";
+        std::cout << getName() << " Poisons " << target->getName()<< "and base health points are negated! Total damage: " << criticalDamage << " !\n";
     }
 }
 

@@ -1,5 +1,7 @@
 #include "monster.h"
 #include "trainer.h"
+#include "arena.h"
+#include "selectArena.h"
 #include <iostream>
 #include <chrono>
 #include <thread>
@@ -13,15 +15,15 @@ int main() {
 
     //create monster instances
     auto *fireMonster = new FireMonster("Drogon", 5, 150, 30, 5);
-    auto *waterMonster = new WaterMonster("Aqua", 5, 200, 20, 20);
     auto *grassMonster = new GrassMonster("Leafy", 5, 200, 25, 15);
-    auto *rockMonster = new RockMonster("Rocko", 5, 200, 25, 15);
+    auto *waterMonster = new WaterMonster("Aqua", 5, 250, 20, 20);
+    auto *rockMonster = new RockMonster("Rocko", 5, 260, 25, 15);
     auto *poisonMonster = new PoisonMonster("Venomancer", 5, 100, 20, 15);
 
     //create item instances
     //Item *itemP1 = new Item("Damage Potion (extra damage)", 20, 0, 0);
-    Item *itemP1 = new Item("Health Potion (extra health)", 0, 0, 50);
-    Item *itemP2 = new Item("Shield Potion (extra defense)", 0, 20, 0);
+    Item *itemP1 = new Item("Health Potion (+50 extra health)", 0, 0, 50);
+    Item *itemP2 = new Item("Shield Potion (+50 extra defense)", 0, 50, 0);
 
     //add monsters to stl container
     player1.addMonster(fireMonster, rockMonster, waterMonster, grassMonster, poisonMonster);
@@ -34,9 +36,16 @@ int main() {
     //equip items to monsters
     player1Monster->equipItem(itemP1);
     player2Monster->equipItem(itemP2);
-
     std::cout << "player1 has: " << itemP1->getName() << std::endl;
     std::cout << "player2 has: " << itemP2->getName() << std::endl;
+
+    // Create an instance of Arena, always random
+    Arena arena(getRandomArenaType());
+    std::cout << "\nBattle Arena: " << arena.getArenaType() << std::endl;
+    arena.enterArena(player1Monster);
+    arena.enterArena(player2Monster);
+
+    // Game starts!
     std::cout << "\nBATTLE BEGINS!" << std::endl;
 
     //fight until health reaches 0
