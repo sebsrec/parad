@@ -3,8 +3,6 @@
 
 #include <string>
 #include "item.h"
-#include "skill.h"// save the skill
-
 
 class Monster {
 public:
@@ -32,13 +30,17 @@ public:
 
     void equipItem(Item *item);  // function to equip an item
 
+    void increaseHealth(int amount) {
+        healthPoints += amount;
+    }
+
 protected:
     std::string name;
     int level{};
     int healthPoints;
     int attackPower;
     int defensePower;
-    Item *equippedItem;  // New member variable to hold the equipped item
+    Item *equippedItem;  //  hold the equipped item
 
 };
 
