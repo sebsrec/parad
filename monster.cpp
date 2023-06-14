@@ -80,10 +80,43 @@ void Monster::reduceDefense(int amount) {
     }
 }
 
-double odds(){ //random number generator
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_real_distribution<> dis(0.0, 1.0);
+bool Monster::hasSkill() const {
+    return skill != nullptr;
+}
+
+Skill* Monster::getSkill() const {
+    return skill;
+}
+
+void Monster::setSkill(Skill* skill) {
+    this->skill = skill;
+}
+
+void Monster::increaseDamage(int amount) {
+    attackPower += amount;
+    std::cout << name << " increased its damage by " << amount << ".\n";
+}
+
+void Monster::decreaseDamage(int amount) {
+    attackPower -= amount;
+    std::cout << name << " decreased its damage by " << amount << ".\n";
+}
+
+void Monster::decreaseHealth(int amount) {
+    healthPoints -= amount;
+    std::cout << name << " decreased its health by " << amount << ".\n";
+}
+
+void Monster::decreaseDefense(int amount) {
+    defensePower -= amount;
+    std::cout << name << " decreased its defense power by " << amount << ".\n";
+}
+
+
+double odds() { // random number generator
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    static std::uniform_real_distribution<> dis(0.0, 1.0);
     double chance = dis(gen);
     return chance;
 }

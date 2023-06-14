@@ -2,39 +2,20 @@
 #define SKILL_H
 
 #include <string>
-#include <vector>
+
+class Monster; // Forward declaration of the Monster class
 
 class Skill {
-public:
-    Skill(const std::string& name, int attackBoost, int defenseBoost, int healthBoost, int resourceCost);
-
-    std::string getName() const;
-    int getAttackBoost() const;
-    int getDefenseBoost() const;
-    int getHealthBoost() const;
-    int getResourceCost() const;
-
 private:
-    std::string name;
-    int attackBoost;
-    int defenseBoost;
-    int healthBoost;
-    int resourceCost;
+    std::string skillType;
+
+public:
+    explicit Skill(const std::string& type);
+
+    std::string getSkillType() const;
+
+    void chooseSkill(Monster* monster);
 };
 
-class SkillSet {
-public:
-    SkillSet();
-    ~SkillSet();
+#endif // SKILL_H
 
-    void addSkill(const Skill& skill);
-    void removeSkill(const std::string& name);
-    bool hasSkill(const std::string& name) const;
-    Skill* getSkill(const std::string& name);
-    const std::vector<Skill>& getAllSkills() const;
-
-private:
-    std::vector<Skill> skills;
-};
-
-#endif  // SKILL_H

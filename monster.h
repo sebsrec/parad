@@ -4,6 +4,7 @@
 #include <string>
 #include <random>
 #include "item.h"
+#include "skill.h"
 
 class Monster {
 public:
@@ -38,6 +39,23 @@ public:
         healthPoints += amount;
     }
 
+
+    // Skill related functions
+    bool hasSkill() const;
+
+    Skill* getSkill() const;
+
+    void setSkill(Skill* skill);
+
+    void increaseDamage(int amount);
+
+    void decreaseDamage(int amount);
+
+    void decreaseHealth(int amount);
+
+    void decreaseDefense(int amount);
+
+
 protected:
     std::string name;
     int level{};
@@ -45,6 +63,7 @@ protected:
     int attackPower;
     int defensePower;
     Item *equippedItem;  //  hold the equipped item
+    Skill* skill; // Pointer to the skill of the monster -> hold skill, analog to hold item.
 
 };
 

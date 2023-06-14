@@ -1,16 +1,18 @@
-#define SELECTMONSTER_H
-
 #include <string>
+#include <random>
+#include <iostream>
+#include <vector>
+#include "monster.h"
 
 Monster *selectMonster(const Trainer &player) {
     int choice;
 
     std::cout << "Select your Monster (1-5): " << std::endl;
-    std::cout << "1. Drogon 150 HP  30 DMG  5 DEF\n\t-extra damage chance\n"<<std::endl;
-    std::cout << "2. Rocko 260 HP  25 DMG  15 DEF\n\t-Damage Block chance\n"<<std::endl;
-    std::cout << "3. Aqua 250 HP  20 DMG  20 DEF\n\t-Lifesteal chance\n"<<std::endl;
-    std::cout << "4. Leafy 200 HP  25 DMG  15 DEF\n\t-Armor reduction chance\n"<<std::endl;
-    std::cout << "5. Venomancer 100 HP  20 DMG  15 DEF\n\t-Instant kill chance\n"<<std::endl;
+    std::cout << "1. Drogon 150 HP  30 DMG  5 DEF\n\t-extra damage chance\n" << std::endl;
+    std::cout << "2. Rocko 260 HP  25 DMG  15 DEF\n\t-Damage Block chance\n" << std::endl;
+    std::cout << "3. Aqua 250 HP  20 DMG  20 DEF\n\t-Lifesteal chance\n" << std::endl;
+    std::cout << "4. Leafy 200 HP  25 DMG  15 DEF\n\t-Armor reduction chance\n" << std::endl;
+    std::cout << "5. Venomancer 100 HP  20 DMG  15 DEF\n\t-Instant kill chance\n" << std::endl;
     std::cin >> choice;
 
     Monster *selectedMonster = nullptr; // no monster was selected or invalid choice
@@ -40,44 +42,45 @@ Monster *selectMonster(const Trainer &player) {
     std::cout << "\n";
     return selectedMonster;
 }
-Monster* randomMonster() {
+
+Monster *randomMonster(const Monster *player1Monster) {
     std::vector<std::string> monsterNames = {"Drogon", "Leafy", "Aqua", "Rocko", "Venomancer"};
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(0, monsterNames.size() - 1);
 
-    std::string name = monsterNames[dis(gen)];
-    int level = 5;  // level is fixed for now
+    std::string name;
+
+    do {
+        name = monsterNames[dis(gen)];
+    } while (name == player1Monster->getName()); // Keep generating random name until it's different from the player's monster
+
+    int level = 5; // level is fixed for now
     int healthPoints, attackPoints, defensePoints;
 
     if (name == "Drogon") {
         healthPoints = 150;
         attackPoints = 30;
         defensePoints = 5;
-
     } else if (name == "Leafy") {
         healthPoints = 200;
         attackPoints = 25;
         defensePoints = 15;
-
     } else if (name == "Aqua") {
         healthPoints = 250;
         attackPoints = 20;
         defensePoints = 20;
-
     } else if (name == "Rocko") {
         healthPoints = 260;
         attackPoints = 25;
         defensePoints = 15;
-
     } else if (name == "Venomancer") {
         healthPoints = 100;
         attackPoints = 20;
         defensePoints = 15;
-
     }
 
-    Monster* monster = new Monster(name, level, healthPoints, attackPoints, defensePoints);
+    Monster *monster = new Monster(name, level, healthPoints, attackPoints, defensePoints);
     std::cout << ">> Computer selected " << monster->getName() << std::endl << std::endl;
     return monster;
 }
