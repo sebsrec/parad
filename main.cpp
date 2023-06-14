@@ -19,7 +19,7 @@ An item is randomly assigned to both player and CPU.
 int main() {
 
     std::cout << "Press  ENTER to continue..." << std::endl;
-    std::cin.ignore();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear input buffer
 
     //create trainer instances
     Trainer player1("Player 1");
@@ -64,14 +64,13 @@ int main() {
     arena.enterArena(player1Monster);
     arena.enterArena(player2Monster);
 
-    //Display stats with no boosts: .........
-
     //Display stats with boosts:
     std::cout << "\nPlayer 1: " << player1Monster->getName()<< " lvl(" << player1Monster->getLevel() << "):  " << player1Monster->getHealthPoints() << " HP  "<< player1Monster->getAttackPower()<< " DMG  "<< player1Monster->getDefensePower() << " DEF  "<< std::endl;
     std::cout << "Copmuter: " << player2Monster->getName()<< " lvl(" << player2Monster->getLevel() << "):  " << player2Monster->getHealthPoints() << " HP  "<< player2Monster->getAttackPower()<< " DMG  "<< player2Monster->getDefensePower() << " DEF  "<< std::endl << "\n";
 
-    //
-    std::cout << "Press  ENTER to start battle!" << std::endl;
+    std::cout << "Press ENTER to start battle!" << std::endl;
+    std::cin.clear(); // Clear any error flags on cin
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear input buffer
     std::cin.get(); // Wait for user to press Enter
 
     // Game starts!
