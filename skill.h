@@ -15,6 +15,8 @@ public:
     std::string getSkillType() const;
 
     void chooseSkill(Monster* monster);
+
+    bool getName();
 };
 
 #endif // SKILL_H

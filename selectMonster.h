@@ -56,31 +56,40 @@ Monster *randomMonster(const Monster *player1Monster) {
     } while (name == player1Monster->getName()); // Keep generating random name until it's different from the player's monster
 
     int level = 5; // level is fixed for now
-    int healthPoints, attackPoints, defensePoints;
+    int healthPoints, attackPoints, defensePoints, mana;
 
     if (name == "Drogon") {
         healthPoints = 150;
         attackPoints = 30;
         defensePoints = 5;
+        mana = 100;
+
     } else if (name == "Leafy") {
         healthPoints = 200;
         attackPoints = 25;
         defensePoints = 15;
+        mana = 100;
+
     } else if (name == "Aqua") {
         healthPoints = 250;
         attackPoints = 20;
         defensePoints = 20;
+        mana = 100;
+
     } else if (name == "Rocko") {
         healthPoints = 260;
         attackPoints = 25;
         defensePoints = 15;
+        mana = 100;
+
     } else if (name == "Venomancer") {
         healthPoints = 100;
         attackPoints = 20;
         defensePoints = 15;
+        mana = 100;
     }
 
-    Monster *monster = new Monster(name, level, healthPoints, attackPoints, defensePoints);
+    Monster *monster = new Monster(name, level, healthPoints, attackPoints, defensePoints, mana);
     std::cout << ">> Computer selected " << monster->getName() << std::endl << std::endl;
     return monster;
 }

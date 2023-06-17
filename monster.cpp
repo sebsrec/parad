@@ -5,8 +5,8 @@
 #include <utility>
 
 
-Monster::Monster(std::string  name, int level, int healthPoints, int attackPower, int defense)
-        : name(std::move(name)), level (level), healthPoints(healthPoints), attackPower(attackPower), defensePower(defense),equippedItem(nullptr) {}
+Monster::Monster(std::string  name, int level, int healthPoints, int attackPower, int defense, int mana)
+        : name(std::move(name)), level (level), healthPoints(healthPoints), attackPower(attackPower), defensePower(defense), equippedItem(nullptr), mana(mana) {}
 
 Monster::~Monster() = default;
 
@@ -35,6 +35,9 @@ int Monster::getAttackPower() const {
 
 int Monster::getDefensePower() const {
     return defensePower;
+}
+int Monster::getMana() const {
+    return mana;
 }
 
 void Monster::attack(Monster* target) {
@@ -112,6 +115,12 @@ void Monster::decreaseDefense(int amount) {
     std::cout << name << " decreased its defense power by " << amount << ".\n";
 }
 
+void Monster::decreaseMana(int amount) {
+    mana -= amount;
+    std::cout << name << " decreased its mana by  " << amount << ".\n";
+
+}
+
 
 double odds() { // random number generator
     static std::random_device rd;
@@ -125,8 +134,10 @@ Item* Monster::getEquippedItem() const {
     return equippedItem;
 }
 
-FireMonster::FireMonster(const std::string &name, int level, int healthPoints, int attackPower, int defensePower)
-        : Monster(name, level, healthPoints, attackPower, defensePower) {}
+
+FireMonster::FireMonster(const std::string& name, int level, int healthPoints, int attackPower, int defensePower, int mana)
+        : Monster(name, level, healthPoints, attackPower, defensePower, mana) {}
+
 
 FireMonster::~FireMonster() = default;
 
@@ -143,8 +154,9 @@ void FireMonster::attack(Monster* target) {
     }
 }
 
-WaterMonster::WaterMonster(const std::string &name, int level, int healthPoints, int attackPower, int defensePower)
-        : Monster(name, level, healthPoints, attackPower, defensePower) {}
+WaterMonster::WaterMonster(const std::string& name, int level, int healthPoints, int attackPower, int defensePower, int mana)
+        : Monster(name, level, healthPoints, attackPower, defensePower, mana) {}
+
 
 WaterMonster::~WaterMonster() = default;
 
@@ -161,8 +173,8 @@ void WaterMonster::attack(Monster* target) {
     }
 }
 
-GrassMonster::GrassMonster(const std::string &name, int level, int healthPoints, int attackPower, int defensePower)
-        : Monster(name, level, healthPoints, attackPower, defensePower) {}
+GrassMonster::GrassMonster(const std::string& name, int level, int healthPoints, int attackPower, int defensePower, int mana)
+        : Monster(name, level, healthPoints, attackPower, defensePower, mana) {}
 
 GrassMonster::~GrassMonster() = default;
 
@@ -178,8 +190,9 @@ void GrassMonster::attack(Monster* target) {
     }
 }
 
-RockMonster::RockMonster(const std::string &name, int level, int healthPoints, int attackPower, int defensePower)
-        : Monster(name, level, healthPoints, attackPower, defensePower) {}
+RockMonster::RockMonster(const std::string& name, int level, int healthPoints, int attackPower, int defensePower, int mana)
+        : Monster(name, level, healthPoints, attackPower, defensePower, mana) {}
+
 
 RockMonster::~RockMonster() = default;
 
@@ -194,8 +207,8 @@ void RockMonster::attack(Monster* target) {
     }
 }
 
-PoisonMonster::PoisonMonster(const std::string &name, int level, int healthPoints, int attackPower, int defensePower)
-        : Monster(name, level, healthPoints, attackPower, defensePower) {}
+PoisonMonster::PoisonMonster(const std::string& name, int level, int healthPoints, int attackPower, int defensePower, int mana)
+        : Monster(name, level, healthPoints, attackPower, defensePower, mana) {}
 
 PoisonMonster::~PoisonMonster() = default;
 

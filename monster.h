@@ -8,7 +8,7 @@
 
 class Monster {
 public:
-    Monster(std::string name, int level, int healthPoints, int attackPower, int defensePower);
+    Monster(std::string name, int level, int healthPoints, int attackPower, int defensePower, int mana);
 
     virtual ~Monster();
 
@@ -22,6 +22,8 @@ public:
     int getAttackPower() const;
 
     int getDefensePower() const;
+
+    int getMana() const;
 
     Item* getEquippedItem() const;
 
@@ -56,6 +58,8 @@ public:
     void decreaseDefense(int amount);
 
 
+    void decreaseMana(int amount);
+
 protected:
     std::string name;
     int level{};
@@ -64,12 +68,12 @@ protected:
     int defensePower;
     Item *equippedItem;  //  hold the equipped item
     Skill* skill; // Pointer to the skill of the monster -> hold skill, analog to hold item.
-
+    int mana;
 };
 
 class FireMonster : public Monster {
 public:
-    FireMonster(const std::string &name, int level, int healthPoints, int attackPower, int defensePower);
+    FireMonster(const std::string &name, int level, int healthPoints, int attackPower, int defensePower, int mana);
 
     ~FireMonster() override;
 
@@ -78,7 +82,7 @@ public:
 
 class WaterMonster : public Monster {
 public:
-    WaterMonster(const std::string &name, int level, int healthPoints, int attackPower, int defensePower);
+    WaterMonster(const std::string &name, int level, int healthPoints, int attackPower, int defensePower, int mana);
 
     ~WaterMonster() override;
 
@@ -87,7 +91,7 @@ public:
 
 class GrassMonster : public Monster {
 public:
-    GrassMonster(const std::string &name, int level, int healthPoints, int attackPower, int defensePower);
+    GrassMonster(const std::string &name, int level, int healthPoints, int attackPower, int defensePower, int mana);
 
     ~GrassMonster() override;
 
@@ -96,7 +100,7 @@ public:
 
 class RockMonster : public Monster {
 public:
-    RockMonster(const std::string &name, int level, int healthPoints, int attackPower, int defensePower);
+    RockMonster(const std::string &name, int level, int healthPoints, int attackPower, int defensePower, int mana);
 
     ~RockMonster() override;
 
@@ -112,7 +116,7 @@ public:
 
 class PoisonMonster : public Monster {
 public:
-    PoisonMonster(const std::string &name, int level, int healthPoints, int attackPower, int defensePower);
+    PoisonMonster(const std::string &name, int level, int healthPoints, int attackPower, int defensePower, int mana);
 
     ~PoisonMonster() override;
 

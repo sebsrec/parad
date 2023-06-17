@@ -15,6 +15,7 @@ An item is randomly assigned to both player and CPU.
 #include <thread>
 #include "selectMonster.h"
 #include <random>
+Skill* generateRandomSkill(); // forward declaration of the generateRandomSkill() function ???
 
 int main() {
 
@@ -23,14 +24,14 @@ int main() {
 
     //create trainer instances
     Trainer player1("Player 1");
-    Trainer player2("OpenAI");
+    Trainer player2("Computer");
 
     //create monster instances
-    auto *fireMonster = new FireMonster("Drogon", 5, 150, 30, 5); //Change name to Gwyn, Lord of Cinder
-    auto *grassMonster = new GrassMonster("Leafy", 5, 200, 25, 15);
-    auto *waterMonster = new WaterMonster("Aqua", 5, 250, 20, 20);
-    auto *rockMonster = new RockMonster("Rocko", 5, 260, 25, 15);
-    auto *poisonMonster = new PoisonMonster("Venomancer", 5, 100, 20, 15);
+    auto *fireMonster = new FireMonster("Drogon", 5, 150, 30, 5, 100);
+    auto *grassMonster = new GrassMonster("Leafy", 5, 200, 25, 15, 100);
+    auto *waterMonster = new WaterMonster("Aqua", 5, 250, 20, 20, 100);
+    auto *rockMonster = new RockMonster("Rocko", 5, 260, 25, 15, 100);
+    auto *poisonMonster = new PoisonMonster("Venomancer", 5, 100, 20, 15, 100);
 
     //create item instances
     std::vector<Item *> items;
@@ -43,18 +44,17 @@ int main() {
     player2.addMonster(fireMonster, rockMonster, waterMonster, grassMonster, poisonMonster);
 
     //select monsters to fight
-
     //Player 1 Selects monster
     Monster *player1Monster = selectMonster(player1);
-    //Computer Randmons monster
+    //Computer Randoms monster
     Monster *player2Monster = randomMonster(player1Monster);
 
-    //Randomly give an item to a monster
+    // Randomly assign items to monsters
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(0, items.size() - 1);
-    Item *randomItemP1 = items[dis(gen)];
-    Item *randomItemP2 = items[dis(gen)];
+    Item* randomItemP1 = items[dis(gen)];
+    Item* randomItemP2 = items[dis(gen)];
     player1Monster->equipItem(randomItemP1);
     player2Monster->equipItem(randomItemP2);
 
@@ -74,11 +74,15 @@ int main() {
     Skill keepStillSkill("keepstill");
 
     //Display stats with boosts:
-    std::cout << "\nPlayer 1: " << player1Monster->getName()<< " lvl(" << player1Monster->getLevel() << "):  " << player1Monster->getHealthPoints() << " HP  "<< player1Monster->getAttackPower()<< " DMG  "<< player1Monster->getDefensePower() << " DEF  "<< std::endl;
-    std::cout << "Copmuter: " << player2Monster->getName()<< " lvl(" << player2Monster->getLevel() << "):  " << player2Monster->getHealthPoints() << " HP  "<< player2Monster->getAttackPower()<< " DMG  "<< player2Monster->getDefensePower() << " DEF  "<< std::endl << "\n";
+    std::cout << "\nPlayer 1: " << player1Monster->getName() << " lvl(" << player1Monster->getLevel() << "):  "
+              << player1Monster->getHealthPoints() << " HP  " << player1Monster->getAttackPower() << " DMG  "
+              << player1Monster->getDefensePower() << " DEF  " << player1Monster->getMana() << " MANA  " << std::endl;
+    std::cout << "Computer: " << player2Monster->getName() << " lvl(" << player2Monster->getLevel() << "):  "
+              << player2Monster->getHealthPoints() << " HP  " << player2Monster->getAttackPower() << " DMG  "
+              << player2Monster->getDefensePower() << " DEF  " << player1Monster->getMana() << " MANA  " << "\n";
 
     //Wait user input to start!
-    std::cout << "Press ENTER to start battle!" << std::endl;
+    std::cout << "\nPress ENTER to start battle!" << std::endl;
     std::cin.clear(); // Clear any error flags on cin
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear input buffer
     std::cin.get(); // Wait for user to press Enter
@@ -90,9 +94,9 @@ int main() {
     while (player1Monster->getHealthPoints() > 0 && player2Monster->getHealthPoints() > 0) {
         std::this_thread::sleep_for(std::chrono::seconds(1));
         std::cout << "\n>> " << player1Monster->getName() << "'s HP: " << player1Monster->getHealthPoints()
-                  << std::endl;
-        std::cout << ">> " << player2Monster->getName() << "'s HP: " << player2Monster->getHealthPoints() << "\n"
-                  << std::endl;
+                  << "  Mana: " << player1Monster->getMana() << std::endl;
+        std::cout << ">> " << player2Monster->getName() << "'s HP: " << player2Monster->getHealthPoints()
+                  << "  Mana: " << player2Monster->getMana() << std::endl << "\n";
 
         // Player 1 selects a skill
         std::cout << "Player 1, select a skill: ";
@@ -113,8 +117,8 @@ int main() {
                   << std::endl;
 
         // Player 2 selects a skill
-        Skill randomSkill("fireball");  // Replace "fireball" with a randomly chosen skill
-        randomSkill.chooseSkill(player2Monster);
+        Skill* randomSkill = generateRandomSkill();
+        randomSkill->chooseSkill(player2Monster);
 
         //Player 2 attacks
         std::this_thread::sleep_for(std::chrono::seconds(1));
@@ -134,12 +138,13 @@ int main() {
 
     player1.removeMonster();
     player2.removeMonster();
-
     delete fireMonster;
     delete waterMonster;
     delete grassMonster;
     delete rockMonster;
     delete poisonMonster;
+
     //Note: Monster instances will delete the Item objects in their destructors.
+    //delete randomSkill;
     return 0;
 }
