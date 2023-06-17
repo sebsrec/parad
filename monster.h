@@ -7,6 +7,9 @@
 #include "skill.h"
 
 class Monster {
+
+    Monster* target; // Add a member variable to store the target monster
+
 public:
     Monster(std::string name, int level, int healthPoints, int attackPower, int defensePower, int mana);
 
@@ -41,6 +44,10 @@ public:
         healthPoints += amount;
     }
 
+    Monster* getTarget() const;
+    void setTarget(Monster* target);
+
+
 
     // Skill related functions
     bool hasSkill() const;
@@ -55,10 +62,13 @@ public:
 
     void decreaseHealth(int amount);
 
-    void decreaseDefense(int amount);
-
+    void increaseDefense(int amount);
 
     void decreaseMana(int amount);
+
+    Monster *getTarget();
+
+private:
 
 protected:
     std::string name;

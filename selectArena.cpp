@@ -7,6 +7,7 @@ std::string getRandomArenaType() {
     std::mt19937 rng(rd());
     std::uniform_int_distribution<int> dist(0, 4);
     int randomIndex = dist(rng);
-    return arenaTypes[randomIndex];
+   // return arenaTypes[randomIndex];
+    return arenaTypes[2];
 
 }

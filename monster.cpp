@@ -97,7 +97,7 @@ void Monster::setSkill(Skill* skill) {
 
 void Monster::increaseDamage(int amount) {
     attackPower += amount;
-    std::cout << name << " increased its damage by " << amount << ".\n";
+   // std::cout << name << " increased its damage by " << amount << ".\n";
 }
 
 void Monster::decreaseDamage(int amount) {
@@ -107,17 +107,17 @@ void Monster::decreaseDamage(int amount) {
 
 void Monster::decreaseHealth(int amount) {
     healthPoints -= amount;
-    std::cout << name << " decreased its health by " << amount << ".\n";
+   // std::cout << name << " decreased its health by " << amount << ".\n";
 }
 
-void Monster::decreaseDefense(int amount) {
-    defensePower -= amount;
-    std::cout << name << " decreased its defense power by " << amount << ".\n";
+void Monster::increaseDefense(int amount) {
+    defensePower += amount;
+    std::cout << name << " increased its defense power by " << amount << ".\n";
 }
 
 void Monster::decreaseMana(int amount) {
     mana -= amount;
-    std::cout << name << " decreased its mana by  " << amount << ".\n";
+   // std::cout << name << " decreased its mana by  " << amount << ".\n";
 
 }
 
@@ -132,6 +132,10 @@ double odds() { // random number generator
 
 Item* Monster::getEquippedItem() const {
     return equippedItem;
+}
+
+Monster *Monster::getTarget() {
+    return nullptr;
 }
 
 

@@ -16,7 +16,7 @@ public:
 
     void chooseSkill(Monster* monster);
 
-    bool getName();
+    std::string getName() const;
 };
 
 #endif // SKILL_H

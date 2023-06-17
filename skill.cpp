@@ -3,7 +3,9 @@
 #include "skill.h"
 #include "monster.h"
 
-Skill::Skill(const std::string& type) : skillType(type) {}
+Skill::Skill(const std::string& type) : skillType(type) {
+
+}
 
 std::string Skill::getSkillType() const {
     return skillType;
@@ -11,59 +13,67 @@ std::string Skill::getSkillType() const {
 
 void Skill::chooseSkill(Monster* monster) {
     if (skillType == "fireball") {
-        // Handle logic for "fireball" skill
-        if (dynamic_cast<FireMonster*>(monster) != nullptr) {
-            monster->increaseDamage(50);
-            monster->decreaseMana(20);  // Decrease mana by 20
+        FireMonster* fireMonster = dynamic_cast<FireMonster*>(monster);
+        if (fireMonster != nullptr) {
+            fireMonster->increaseDamage(50);
+            fireMonster->decreaseMana(20);
             std::cout << ">> SKILL ACTIVATED!  " << monster->getName() << " increased its damage by 50 using Fireball.\n";
-        } else if (dynamic_cast<WaterMonster*>(monster) != nullptr) {
-            monster->decreaseDamage(-20);
-            monster->decreaseMana(20);  // Decrease mana by 20
-            std::cout << ">> DEBUFF ACTIVATED!  " << monster->getName() << " decreased its damage by 20 using Fireball against a Water Monster.\n";
         } else {
-            std::cout << ">> SKILL NOT APPLICABLE!  " << monster->getName() << " cannot use the Fireball skill.\n";
+            monster->decreaseHealth(20);
+            monster->decreaseMana(20);
+            std::cout << ">> DEBUFF ACTIVATED!  " << monster->getName() << " tried to use Fireball and immolated themselves! Taks 20 damage.\n";
         }
     } else if (skillType == "waterfall") {
-        // Handle logic for "waterfall" skill
-        if (dynamic_cast<WaterMonster*>(monster) != nullptr) {
-            monster->increaseHealth(100);
-            monster->decreaseMana(20);  // Decrease mana by 20
-            std::cout << ">> SKILL ACTIVATED!  " << monster->getName() << " increased its health by 100 using Waterfall.\n";
+        WaterMonster* waterMonster = dynamic_cast<WaterMonster*>(monster);
+        if (waterMonster != nullptr) {
+            waterMonster->increaseHealth(20);
+            waterMonster->decreaseMana(20);
+            std::cout << ">> SKILL ACTIVATED!  " << monster->getName() << " increased its health by 20 using Waterfall.\n";
         } else {
-            monster->decreaseHealth(100);
-            monster->decreaseMana(20);  // Decrease mana by 20
-            std::cout << ">> DEBUFF ACTIVATED! " << monster->getName() << " slips into a puddle and decreases its health by 100 using Waterfall.\n";
+            monster->decreaseHealth(20);
+            monster->decreaseMana(20);
+            std::cout << ">> DEBUFF ACTIVATED! " << monster->getName() << " slips into a puddle and decreases its health by 20 using Waterfall.\n";
         }
     } else if (skillType == "bigrock") {
-        // Handle logic for "bigrock" skill
-        if (dynamic_cast<RockMonster*>(monster) != nullptr) {
-            monster->increaseHealth(100);
-            monster->decreaseMana(20);  // Decrease mana by 20
+        RockMonster* rockMonster = dynamic_cast<RockMonster*>(monster);
+        if (rockMonster != nullptr) {
+            rockMonster->increaseHealth(100);
+            rockMonster->decreaseMana(20);
             std::cout << ">> SKILL ACTIVATED!  " << monster->getName() << " increased its health by 100 using Big Rock.\n";
         } else {
             monster->decreaseHealth(100);
-            monster->decreaseMana(20);  // Decrease mana by 20
+            monster->decreaseMana(20);
             std::cout << ">> DEBUFF ACTIVATED! " << monster->getName() << " is crushed by a Big Rock.\n";
         }
     } else if (skillType == "keepstill") {
-        // Handle logic for "keepstill" skill
-        if (dynamic_cast<GrassMonster*>(monster) != nullptr) {
-            monster->decreaseDefense(100);
-            monster->decreaseMana(20);  // Decrease mana by 20
-            std::cout << ">> SKILL ACTIVATED!  " << monster->getName() << " set its defense power to 0 using Keep Still.\n";
+        GrassMonster* grassMonster = dynamic_cast<GrassMonster*>(monster);
+        if (grassMonster != nullptr) {
+            grassMonster->increaseDefense(100);
+            grassMonster->decreaseMana(20);
+            std::cout << ">> SKILL ACTIVATED!  " << monster->getName() << " crawls into fetal position using Keep Still and increases defence by 100!.\n";
         } else {
             std::cout << ">> SKILL NOT APPLICABLE!  " << monster->getName() << " cannot use the Keep Still skill.\n";
+        }
+    } else if (skillType == "manavoid") {
+        Monster* target = monster->getTarget(); // Retrieve the target monster... buggy
+        std::cout << "target:  " << monster->getTarget() << "\n";
+        if (target != nullptr) { // Check if target is valid
+            target->decreaseMana(50); // Decrease target's mana by the desired amount
+            std::cout << ">> SKILL ACTIVATED!  " << monster->getName() << " drained 50 mana from " << target->getName() << " using Mana Void.\n";
+        } else {
+            std::cout << ">> SKILL NOT APPLICABLE!  " << monster->getName() << " does not have a target to use the Mana Void skill.\n";
         }
     } else {
         std::cout << ">> UNKNOWN SKILL!  " << monster->getName() << " cannot use an unknown skill.\n";
     }
 }
 
-// Function to generate a random skill for the player
+
+// Function to generate a random skill for the computer
 Skill* generateRandomSkill() {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(0, 3);
+    std::uniform_int_distribution<> dis(0, 4);  // Updated range from 0 to 4
 
     int skillIndex = dis(gen);
     Skill* randomSkill = nullptr;
@@ -81,7 +91,11 @@ Skill* generateRandomSkill() {
         case 3:
             randomSkill = new Skill("keepstill");
             break;
+        case 4:
+            randomSkill = new Skill("manavoid");
+            break;
     }
 
     return randomSkill;
 }
+
