@@ -134,10 +134,6 @@ Item* Monster::getEquippedItem() const {
     return equippedItem;
 }
 
-Monster *Monster::getTarget() {
-    return nullptr;
-}
-
 
 FireMonster::FireMonster(const std::string& name, int level, int healthPoints, int attackPower, int defensePower, int mana)
         : Monster(name, level, healthPoints, attackPower, defensePower, mana) {}

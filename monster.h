@@ -44,10 +44,8 @@ public:
         healthPoints += amount;
     }
 
-    Monster* getTarget() const;
     void setTarget(Monster* target);
-
-
+    Monster* getTarget() const;
 
     // Skill related functions
     bool hasSkill() const;
@@ -66,8 +64,6 @@ public:
 
     void decreaseMana(int amount);
 
-    Monster *getTarget();
-
 private:
 
 protected:
@@ -79,7 +75,18 @@ protected:
     Item *equippedItem;  //  hold the equipped item
     Skill* skill; // Pointer to the skill of the monster -> hold skill, analog to hold item.
     int mana;
+
 };
+
+// Inline function definitions for getTarget() and setTarget()
+inline Monster* Monster::getTarget() const {
+    return target;
+}
+
+inline void Monster::setTarget(Monster* target) {
+    this->target = target;
+}
+
 
 class FireMonster : public Monster {
 public:

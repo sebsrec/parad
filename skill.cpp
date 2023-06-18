@@ -55,11 +55,9 @@ void Skill::chooseSkill(Monster* monster) {
             std::cout << ">> SKILL NOT APPLICABLE!  " << monster->getName() << " cannot use the Keep Still skill.\n";
         }
     } else if (skillType == "manavoid") {
-        Monster* target = monster->getTarget(); // Retrieve the target monster... buggy
-        std::cout << "target:  " << monster->getTarget() << "\n";
-        if (target != nullptr) { // Check if target is valid
-            target->decreaseMana(50); // Decrease target's mana by the desired amount
-            std::cout << ">> SKILL ACTIVATED!  " << monster->getName() << " drained 50 mana from " << target->getName() << " using Mana Void.\n";
+        if (monster->getTarget() != nullptr) {
+            monster->getTarget()->decreaseMana(50);
+            std::cout << ">> SKILL ACTIVATED!  " << monster->getName() << " drained 50 mana from " << monster->getTarget()->getName() << " using Mana Void.\n";
         } else {
             std::cout << ">> SKILL NOT APPLICABLE!  " << monster->getName() << " does not have a target to use the Mana Void skill.\n";
         }
