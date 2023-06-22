@@ -49,7 +49,7 @@ void Skill::chooseSkill(Monster *monster) {
             monster->decreaseHealth(20);
             monster->decreaseMana(20);
             std::cout << ">> DEBUFF ACTIVATED! " << monster->getName()
-                      << " is crushed by a Big Rock. Takes 20 damage.\n";
+                      << " is crushed by a Big antimage. Takes 20 damage.\n";
         }
     } else if (skillType == "keepstill") {
         auto *grassMonster = dynamic_cast<GrassMonster *>(monster);
@@ -79,10 +79,25 @@ void Skill::chooseSkill(Monster *monster) {
             monster->decreaseHealth(20);
             std::cout << ">> DEBUFF ACTIVATED! " << monster->getName()
                       << " tried to use Mana Void and took 20 damage and decreased its mana by 20.\n";
+        } 
+    } else if (skillType == "praisesun") {
+        auto *antimageMonster = dynamic_cast<AntimageMonster *>(monster);
+        if (antimageMonster != nullptr) {
+            antimageMonster->increaseHealth(50);
+            antimageMonster->decreaseMana(50);
+            std::cout << ">> SKILL ACTIVATED!  " << monster->getName()
+                      << " praises the sun and heals for 50!\n";
+        } else {
+            monster->decreaseHealth(50);
+            monster->decreaseMana(20);
+            std::cout << ">> DEBUFF ACTIVATED! " << monster->getName()
+                      << " is punished by the sun. Takes 50 damage.\n";
         }
-    } else {
-        std::cout << ">> UNKNOWN SKILL! " << monster->getName() << " cannot use an unknown skill.\n";
     }
+    else {
+        
+        std::cout << ">> UNKNOWN SKILL! " << monster->getName() << " cannot use an unknown skill.\n";
+    } 
 }
 std::string Skill::getName() const {
     return skillType;
@@ -93,7 +108,7 @@ std::string Skill::getName() const {
 Skill *generateRandomSkill() {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(0, 4);
+    std::uniform_int_distribution<> dis(0, 5);
 
     int skillIndex = dis(gen);
     Skill *randomSkill = nullptr;
@@ -113,6 +128,9 @@ Skill *generateRandomSkill() {
             break;
         case 4:
             randomSkill = new Skill("manavoid");
+            break;
+        case 5:
+            randomSkill = new Skill("praisesun");
             break;
     }
     std::cout << "Computer used: " << randomSkill->getName() << std::endl;

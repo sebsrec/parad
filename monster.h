@@ -42,6 +42,9 @@ public:
     void increaseHealth(int amount) {
         healthPoints += amount;
     }
+    void increaseMana(int amount) {
+        mana += amount;
+    }
 
     void setTarget(Monster* target);
     Monster* getTarget() const;
@@ -81,7 +84,8 @@ protected:
 // Inline function definitions for getTarget() and setTarget() -> buggy still
 
 inline void Monster::setTarget(Monster* target) {
-    this->target = target;
+
+this->target = target;
 }
 
 inline Monster* Monster::getTarget() const {
@@ -123,12 +127,6 @@ public:
 
     void attack(Monster *target) override;
 
-    static Item* getRandomItem(const std::vector<Item*>& items) {
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        std::uniform_int_distribution<> dis(0, items.size() - 1);
-        return items[dis(gen)];
-    }
 };
 
 class PoisonMonster : public Monster {
@@ -136,6 +134,15 @@ public:
     PoisonMonster(const std::string &name, int level, int healthPoints, int attackPower, int defensePower, int mana);
 
     ~PoisonMonster() override;
+
+    void attack(Monster *target) override;
+};
+
+class AntimageMonster : public Monster {
+public:
+    AntimageMonster(const std::string &name, int level, int healthPoints, int attackPower, int defensePower, int mana);
+
+    ~AntimageMonster() override;
 
     void attack(Monster *target) override;
 };

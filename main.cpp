@@ -32,26 +32,26 @@ int main() {
     auto *waterMonster = new WaterMonster("Aqua", 5, 200, 20, 25, 100);
     auto *rockMonster = new RockMonster("Rocko", 5, 260, 25, 0, 100);
     auto *poisonMonster = new PoisonMonster("Venomancer", 5, 100, 20, 15, 100);
+    auto *antimageMonster = new AntimageMonster("Antimage", 5, 100, 20, 15, 100);
+
 
     //create item instances
     std::vector<Item *> items;
     items.push_back(new Item("Health Potion (+50 extra health)", 0, 0, 50,0));
     items.push_back(new Item("Shield Potion (+50 extra defense)", 0, 50, 0,0));
     items.push_back(new Item("Damage Potion (+20 extra damage)", 20, 0, 0,0));
-    items.push_back(new Item("Mana Potion (+20 extra damage)", 0, 0, 0,20));
-
-
+    items.push_back(new Item("Mana Potion (+20 extra mana)", 0, 0, 0,20));
 
     //add monsters to stl container
-    player1.addMonster(fireMonster, rockMonster, waterMonster, grassMonster, poisonMonster);
-    player2.addMonster(fireMonster, rockMonster, waterMonster, grassMonster, poisonMonster);
+    player1.addMonster(fireMonster, rockMonster, waterMonster, grassMonster, poisonMonster, antimageMonster);
+    player2.addMonster(fireMonster, rockMonster, waterMonster, grassMonster, poisonMonster, antimageMonster);
 
     //select monsters to fight
     //Player 1 Selects monster
     Monster *player1Monster = selectMonster(player1);
+
     //Computer Randoms monster
     Monster *player2Monster = randomMonster(player2Monster);
-    //Monster *player2Monster = fireMonster;
 
     player1Monster->setTarget(player2Monster);
 
@@ -86,7 +86,7 @@ int main() {
               << player1Monster->getDefensePower() << " DEF  " << player1Monster->getMana() << " MANA  " << std::endl;
     std::cout << "Computer: " << player2Monster->getName() << " lvl(" << player2Monster->getLevel() << "):  "
               << player2Monster->getHealthPoints() << " HP  " << player2Monster->getAttackPower() << " DMG  "
-              << player2Monster->getDefensePower() << " DEF  " << player1Monster->getMana() << " MANA  " << "\n";
+              << player2Monster->getDefensePower() << " DEF  " << player2Monster->getMana() << " MANA  " << "\n";
 
     //Wait user input to start!
     std::cout << "\nPress ENTER to start battle!" << std::endl;
@@ -152,6 +152,5 @@ int main() {
     delete poisonMonster;
 
     //Note: Monster instances will delete the Item objects in their destructors.
-    //delete randomSkill;
     return 0;
 }

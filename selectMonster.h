@@ -13,6 +13,8 @@ Monster *selectMonster(const Trainer &player) {
     std::cout << "3. Aqua 200 HP  20 DMG  25 DEF\n\t-Lifesteal chance\n\t-Spell: waterfall\n" << std::endl;
     std::cout << "4. Leafy 200 HP  25 DMG  15 DEF\n\t-Armor reduction chance\n\t-Spell: keepstill\n" << std::endl;
     std::cout << "5. Venomancer 100 HP  20 DMG  15 DEF\n\t-Instant kill chance\n\t-Spell: manavoid\n" << std::endl;
+    std::cout << "6. Antimage 100 HP  20 DMG  15 DEF\n\t-Extra damage based on enemy mana chance\n\t-Spell: praisesun\n" << std::endl;
+
     std::cin >> choice;
 
     Monster *selectedMonster = nullptr; // no monster was selected or invalid choice
@@ -38,12 +40,16 @@ Monster *selectMonster(const Trainer &player) {
             std::cout << ">> You selected Venomancer\n";
             selectedMonster = player.getMonster(4);
             break;
+        case 6:
+            std::cout << ">> You selected Antimage\n";
+            selectedMonster = player.getMonster(5);
+            break;
     }
     std::cout << "\n";
     return selectedMonster;
 }
 
-Monster* randomMonster(const Monster* player2Monster) {
+Monster *randomMonster(const Monster *player2Monster) {
     std::vector<std::string> monsterNames = {"Drogon", "Leafy", "Aqua", "Rocko", "Venomancer"};
 
     std::random_device rd;
@@ -65,8 +71,9 @@ Monster* randomMonster(const Monster* player2Monster) {
         return new RockMonster(name, 5, 260, 25, 0, 100);
     } else if (name == "Venomancer") {
         return new PoisonMonster(name, 5, 100, 20, 15, 100);
+    } else if (name == "Antimage") {
+        return new AntimageMonster(name, 5,100, 20, 15, 100);
     }
-
     return nullptr; // Return nullptr if the name doesn't match any monster
 }
 

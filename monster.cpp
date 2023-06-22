@@ -29,15 +29,24 @@ int Monster::getHealthPoints() const {
     return totalHealth;
 }
 
+int Monster::getMana() const {
+    int totalMana = mana;
+
+    // check if monster has an equipped item
+    if (equippedItem != nullptr) {
+        totalMana += equippedItem->getBonusMana(); // add item bonus health
+    }
+
+    return totalMana;
+}
+
+
 int Monster::getAttackPower() const {
     return attackPower;
 }
 
 int Monster::getDefensePower() const {
     return defensePower;
-}
-int Monster::getMana() const {
-    return mana;
 }
 
 void Monster::attack(Monster* target) {
@@ -222,5 +231,21 @@ void PoisonMonster::attack(Monster* target) {
         int criticalDamage =   target->getHealthPoints();
         target->takeDamage(criticalDamage);
         std::cout << getName() << " Poisons " << target->getName()<< " and base health points are negated! Total damage: " << criticalDamage << "!\n";
+    }
+}
+
+AntimageMonster::AntimageMonster(const std::string& name, int level, int healthPoints, int attackPower, int defensePower, int mana)
+        : Monster(name, level, healthPoints, attackPower, defensePower, mana) {}
+
+AntimageMonster::~AntimageMonster() = default;
+
+void AntimageMonster::attack(Monster* target) {
+    Monster::attack(target);
+    // 20% chance enemy mana to damage!
+    double  chance = odds();
+    if (chance <= 0.20) {
+        int manaDamage =   target->getMana();
+        target->takeDamage(manaDamage);
+        std::cout << getName() << " attacks " << target->getName()<< " and inflicts damage based on current mana! Total damage: " << manaDamage << "!\n";
     }
 }
