@@ -79,12 +79,13 @@ protected:
 };
 
 // Inline function definitions for getTarget() and setTarget() -> buggy still
-inline Monster* Monster::getTarget() const {
-    return target;
-}
 
 inline void Monster::setTarget(Monster* target) {
     this->target = target;
+}
+
+inline Monster* Monster::getTarget() const {
+    return target;
 }
 
 class FireMonster : public Monster {

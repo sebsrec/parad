@@ -95,7 +95,7 @@ bool Monster::hasSkill() const {
 
 void Monster::increaseDamage(int amount) {
     attackPower += amount;
-   // std::cout << name << " increased its damage by " << amount << ".\n";
+    // std::cout << name << " increased its damage by " << amount << ".\n";
 }
 
 void Monster::decreaseDamage(int amount) {
@@ -105,7 +105,7 @@ void Monster::decreaseDamage(int amount) {
 
 void Monster::decreaseHealth(int amount) {
     healthPoints -= amount;
-   // std::cout << name << " decreased its health by " << amount << ".\n";
+    // std::cout << name << " decreased its health by " << amount << ".\n";
 }
 
 void Monster::increaseDefense(int amount) {
@@ -119,7 +119,7 @@ void Monster::decreaseMana(int amount) {
         mana = 0;
         std::cout << name << " Has no mana!" << ".\n";
     }
-   // std::cout << name << " decreased its mana by  " << amount << ".\n";
+    // std::cout << name << " decreased its mana by  " << amount << ".\n";
 
 }
 
@@ -224,5 +224,3 @@ void PoisonMonster::attack(Monster* target) {
         std::cout << getName() << " Poisons " << target->getName()<< " and base health points are negated! Total damage: " << criticalDamage << "!\n";
     }
 }
-
-

@@ -43,8 +43,9 @@ Monster *selectMonster(const Trainer &player) {
     return selectedMonster;
 }
 
-Monster* randomMonster(const Monster* player1Monster) {
+Monster* randomMonster(const Monster* player2Monster) {
     std::vector<std::string> monsterNames = {"Drogon", "Leafy", "Aqua", "Rocko", "Venomancer"};
+
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(0, monsterNames.size() - 1);

@@ -1,4 +1,3 @@
-
 /*
 CHINPOKOMON
 The battle arena is chosen randomly.
@@ -37,9 +36,10 @@ int main() {
     //create item instances
     std::vector<Item *> items;
     items.push_back(new Item("Health Potion (+50 extra health)", 0, 0, 50,0));
-    items.push_back(new Item("Shield (+50 extra defense)", 0, 50, 0,0));
+    items.push_back(new Item("Shield Potion (+50 extra defense)", 0, 50, 0,0));
     items.push_back(new Item("Damage Potion (+20 extra damage)", 20, 0, 0,0));
-    items.push_back(new Item("Mana Potion (+20 extra mana)", 0, 0, 0,20));
+    items.push_back(new Item("Mana Potion (+20 extra damage)", 0, 0, 0,20));
+
 
 
     //add monsters to stl container
@@ -51,6 +51,7 @@ int main() {
     Monster *player1Monster = selectMonster(player1);
     //Computer Randoms monster
     Monster *player2Monster = randomMonster(player2Monster);
+    //Monster *player2Monster = fireMonster;
 
     player1Monster->setTarget(player2Monster);
 
@@ -115,13 +116,6 @@ int main() {
         std::this_thread::sleep_for(std::chrono::seconds(1));
         player1Monster->attack(player2Monster);
 
-        // Display HP
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-        std::cout << "\n>> " << player1Monster->getName() << "'s HP: " << player1Monster->getHealthPoints()
-                  << std::endl;
-        std::cout << ">> " << player2Monster->getName() << "'s HP: " << player2Monster->getHealthPoints() << "\n"
-                  << std::endl;
-
         // Check if player 2 is defeated
         if (player2Monster->getHealthPoints() <= 0 && player1Monster->getHealthPoints() > 0) {
             std::cout << "\nPlayer 1 wins!" << std::endl;
@@ -135,13 +129,6 @@ int main() {
         // Player 2 attacks player 1
         std::this_thread::sleep_for(std::chrono::seconds(1));
         player2Monster->attack(player1Monster);
-
-        // Display HP
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-        std::cout << "\n>> " << player1Monster->getName() << "'s HP: " << player1Monster->getHealthPoints()
-                  << std::endl;
-        std::cout << ">> " << player2Monster->getName() << "'s HP: " << player2Monster->getHealthPoints() << "\n"
-                  << std::endl;
 
         // Check if player 1 is defeated
         if (player1Monster->getHealthPoints() <= 0 && player2Monster->getHealthPoints() > 0) {
@@ -165,5 +152,6 @@ int main() {
     delete poisonMonster;
 
     //Note: Monster instances will delete the Item objects in their destructors.
+    //delete randomSkill;
     return 0;
 }
