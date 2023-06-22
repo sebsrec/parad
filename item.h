@@ -5,7 +5,7 @@
 
 class Item {
 public:
-    Item(const std::string& name, int bonusDamage, int bonusDefense,  int bonusHealth);
+    Item(const std::string& name, int bonusDamage, int bonusDefense,  int bonusHealth, int bonusMana);
     ~Item();
 
     // Getters
@@ -13,6 +13,7 @@ public:
     int getBonusDamage() const;
     int getBonusDefense() const;
     int getBonusHealth() const;
+    int getBonusMana() const;
 
     // Setter
     void setItem(Item* newItem);
@@ -22,6 +23,7 @@ private:
     int bonusDamage;
     int bonusDefense;
     int bonusHealth;
+    int bonusMana;
 
     Item* item;
 };

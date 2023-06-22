@@ -1,7 +1,7 @@
 #include "item.h"
 
-Item::Item(const std::string& name, int bonusDamage, int bonusDefense, int bonusHealth)
-        : name(name), bonusDamage(bonusDamage), bonusDefense(bonusDefense), bonusHealth(bonusHealth), item(nullptr) {}
+Item::Item(const std::string& name, int bonusDamage, int bonusDefense, int bonusHealth, int bonusMana)
+        : name(name), bonusDamage(bonusDamage), bonusDefense(bonusDefense), bonusHealth(bonusHealth), bonusMana(bonusMana),item(nullptr) {}
 
 Item::~Item() = default;
 
@@ -18,6 +18,10 @@ int Item::getBonusDefense() const {
 
 int Item::getBonusHealth() const {
     return bonusHealth;
+}
+
+int Item::getBonusMana() const {
+    return bonusMana;
 }
 
 void Item::setItem(Item* newItem) {//Don't delete! doesn't work if removed...

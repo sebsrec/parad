@@ -8,7 +8,6 @@
 
 class Monster {
 
-    Monster* target; // Add a member variable to store the target monster
 
 public:
     Monster(std::string name, int level, int healthPoints, int attackPower, int defensePower, int mana);
@@ -65,10 +64,11 @@ public:
     void decreaseMana(int amount);
 
 private:
+    Monster* target; // Declaration of 'target' member variable
 
 protected:
     std::string name;
-    int level{};
+    int level;
     int healthPoints;
     int attackPower;
     int defensePower;
@@ -78,7 +78,7 @@ protected:
 
 };
 
-// Inline function definitions for getTarget() and setTarget()
+// Inline function definitions for getTarget() and setTarget() -> buggy still
 inline Monster* Monster::getTarget() const {
     return target;
 }
@@ -86,7 +86,6 @@ inline Monster* Monster::getTarget() const {
 inline void Monster::setTarget(Monster* target) {
     this->target = target;
 }
-
 
 class FireMonster : public Monster {
 public:

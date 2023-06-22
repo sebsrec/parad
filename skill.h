@@ -13,11 +13,9 @@ public:
     explicit Skill(const std::string& type);
 
     std::string getSkillType() const;
+    std::string getName() const; // Added function declaration
 
     void chooseSkill(Monster* monster);
-
-    std::string getName() const;
 };
 
 #endif // SKILL_H
-

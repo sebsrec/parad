@@ -8,11 +8,11 @@ Monster *selectMonster(const Trainer &player) {
     int choice;
 
     std::cout << "Select your Monster (1-5): " << std::endl;
-    std::cout << "1. Drogon 150 HP  30 DMG  5 DEF\n\t-extra damage chance\n" << std::endl;
-    std::cout << "2. Rocko 260 HP  25 DMG  15 DEF\n\t-Damage Block chance\n" << std::endl;
-    std::cout << "3. Aqua 250 HP  20 DMG  20 DEF\n\t-Lifesteal chance\n" << std::endl;
-    std::cout << "4. Leafy 200 HP  25 DMG  15 DEF\n\t-Armor reduction chance\n" << std::endl;
-    std::cout << "5. Venomancer 100 HP  20 DMG  15 DEF\n\t-Instant kill chance\n" << std::endl;
+    std::cout << "1. Drogon 150 HP  30 DMG  5 DEF\n\t-extra damage chance\n\t-Spell: fireball\n" << std::endl;
+    std::cout << "2. Rocko 260 HP  25 DMG  0 DEF\n\t-Damage block chance\n\t-Spell: bigrock\n" << std::endl;
+    std::cout << "3. Aqua 200 HP  20 DMG  25 DEF\n\t-Lifesteal chance\n\t-Spell: waterfall\n" << std::endl;
+    std::cout << "4. Leafy 200 HP  25 DMG  15 DEF\n\t-Armor reduction chance\n\t-Spell: keepstill\n" << std::endl;
+    std::cout << "5. Venomancer 100 HP  20 DMG  15 DEF\n\t-Instant kill chance\n\t-Spell: manavoid\n" << std::endl;
     std::cin >> choice;
 
     Monster *selectedMonster = nullptr; // no monster was selected or invalid choice
@@ -43,53 +43,29 @@ Monster *selectMonster(const Trainer &player) {
     return selectedMonster;
 }
 
-Monster *randomMonster(const Monster *player1Monster) {
+Monster* randomMonster(const Monster* player1Monster) {
     std::vector<std::string> monsterNames = {"Drogon", "Leafy", "Aqua", "Rocko", "Venomancer"};
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(0, monsterNames.size() - 1);
 
-    std::string name;
+    std::string name = ""; // Initialize with an empty string
 
-    do {
-        name = monsterNames[dis(gen)];
-    } while (name == player1Monster->getName()); // Keep generating random name until it's different from the player's monster
+    name = monsterNames[dis(gen)]; // Assign a random monster name
 
-    int level = 5; // level is fixed for now
-    int healthPoints, attackPoints, defensePoints, mana;
-
+    // Create the corresponding monster object based on the name
     if (name == "Drogon") {
-        healthPoints = 150;
-        attackPoints = 30;
-        defensePoints = 5;
-        mana = 100;
-
+        return new FireMonster(name, 5, 150, 30, 5, 100);
     } else if (name == "Leafy") {
-        healthPoints = 200;
-        attackPoints = 25;
-        defensePoints = 15;
-        mana = 100;
-
+        return new GrassMonster(name, 5, 200, 25, 15, 100);
     } else if (name == "Aqua") {
-        healthPoints = 250;
-        attackPoints = 20;
-        defensePoints = 20;
-        mana = 100;
-
+        return new WaterMonster(name, 5, 200, 20, 25, 100);
     } else if (name == "Rocko") {
-        healthPoints = 260;
-        attackPoints = 25;
-        defensePoints = 15;
-        mana = 100;
-
+        return new RockMonster(name, 5, 260, 25, 0, 100);
     } else if (name == "Venomancer") {
-        healthPoints = 100;
-        attackPoints = 20;
-        defensePoints = 15;
-        mana = 100;
+        return new PoisonMonster(name, 5, 100, 20, 15, 100);
     }
 
-    Monster *monster = new Monster(name, level, healthPoints, attackPoints, defensePoints, mana);
-    std::cout << ">> Computer selected " << monster->getName() << std::endl << std::endl;
-    return monster;
+    return nullptr; // Return nullptr if the name doesn't match any monster
 }
+

@@ -4,6 +4,7 @@ CHINPOKOMON
 The battle arena is chosen randomly.
 The CPU selects a monster at random.
 An item is randomly assigned to both player and CPU.
+Use the correct spell in each monster!
 */
 
 #include "monster.h"
@@ -15,7 +16,7 @@ An item is randomly assigned to both player and CPU.
 #include <thread>
 #include "selectMonster.h"
 #include <random>
-Skill* generateRandomSkill(); // forward declaration of the generateRandomSkill() function ???
+Skill* generateRandomSkill(); // forward declaration of the generateRandomSkill() function
 
 int main() {
 
@@ -29,15 +30,17 @@ int main() {
     //create monster instances
     auto *fireMonster = new FireMonster("Drogon", 5, 150, 30, 5, 100);
     auto *grassMonster = new GrassMonster("Leafy", 5, 200, 25, 15, 100);
-    auto *waterMonster = new WaterMonster("Aqua", 5, 250, 20, 20, 100);
-    auto *rockMonster = new RockMonster("Rocko", 5, 260, 25, 15, 100);
+    auto *waterMonster = new WaterMonster("Aqua", 5, 200, 20, 25, 100);
+    auto *rockMonster = new RockMonster("Rocko", 5, 260, 25, 0, 100);
     auto *poisonMonster = new PoisonMonster("Venomancer", 5, 100, 20, 15, 100);
 
     //create item instances
     std::vector<Item *> items;
-    items.push_back(new Item("Health Potion (+50 extra health)", 0, 0, 50));
-    items.push_back(new Item("Shield Potion (+50 extra defense)", 0, 50, 0));
-    items.push_back(new Item("Damage Potion (+20 extra damage)", 20, 0, 0));
+    items.push_back(new Item("Health Potion (+50 extra health)", 0, 0, 50,0));
+    items.push_back(new Item("Shield (+50 extra defense)", 0, 50, 0,0));
+    items.push_back(new Item("Damage Potion (+20 extra damage)", 20, 0, 0,0));
+    items.push_back(new Item("Mana Potion (+20 extra mana)", 0, 0, 0,20));
+
 
     //add monsters to stl container
     player1.addMonster(fireMonster, rockMonster, waterMonster, grassMonster, poisonMonster);
@@ -47,7 +50,10 @@ int main() {
     //Player 1 Selects monster
     Monster *player1Monster = selectMonster(player1);
     //Computer Randoms monster
-    Monster *player2Monster = randomMonster(player1Monster);
+    Monster *player2Monster = randomMonster(player2Monster);
+
+    player1Monster->setTarget(player2Monster);
+
 
     // Randomly assign items to monsters
     std::random_device rd;
@@ -58,8 +64,8 @@ int main() {
     player1Monster->equipItem(randomItemP1);
     player2Monster->equipItem(randomItemP2);
 
-    std::cout << "Player 1 has: " << player1Monster->getEquippedItem()->getName() << std::endl;
-    std::cout << "Computer has: " << player2Monster->getEquippedItem()->getName() << std::endl;
+    std::cout << "Player 1 found: " << player1Monster->getEquippedItem()->getName() << std::endl;
+    std::cout << "Computer chose: " << player2Monster->getEquippedItem()->getName() << std::endl;
 
     // Create an instance of Arena
     Arena arena(getRandomArenaType());
@@ -105,34 +111,48 @@ int main() {
         Skill skill(skillType);
         skill.chooseSkill(player1Monster);
 
-        //Player 1 attacks
+        // Player 1 attacks player 2
         std::this_thread::sleep_for(std::chrono::seconds(1));
         player1Monster->attack(player2Monster);
 
-        //Display HP
+        // Display HP
         std::this_thread::sleep_for(std::chrono::seconds(1));
         std::cout << "\n>> " << player1Monster->getName() << "'s HP: " << player1Monster->getHealthPoints()
                   << std::endl;
         std::cout << ">> " << player2Monster->getName() << "'s HP: " << player2Monster->getHealthPoints() << "\n"
                   << std::endl;
 
+        // Check if player 2 is defeated
+        if (player2Monster->getHealthPoints() <= 0 && player1Monster->getHealthPoints() > 0) {
+            std::cout << "\nPlayer 1 wins!" << std::endl;
+            break;
+        }
+
         // Player 2 selects a skill
         Skill* randomSkill = generateRandomSkill();
         randomSkill->chooseSkill(player2Monster);
 
-        //Player 2 attacks
+        // Player 2 attacks player 1
         std::this_thread::sleep_for(std::chrono::seconds(1));
         player2Monster->attack(player1Monster);
 
-        //Check if battle ends
-        if (player1Monster->getHealthPoints() <= 0 && player2Monster->getHealthPoints() != 0) {
+        // Display HP
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+        std::cout << "\n>> " << player1Monster->getName() << "'s HP: " << player1Monster->getHealthPoints()
+                  << std::endl;
+        std::cout << ">> " << player2Monster->getName() << "'s HP: " << player2Monster->getHealthPoints() << "\n"
+                  << std::endl;
+
+        // Check if player 1 is defeated
+        if (player1Monster->getHealthPoints() <= 0 && player2Monster->getHealthPoints() > 0) {
             std::cout << "\nComputer wins!" << std::endl;
+            break;
         }
-        if (player2Monster->getHealthPoints() <= 0 && player1Monster->getHealthPoints() != 0) {
-            std::cout << "\nPlayer 1 wins!" << std::endl;
-        }
+
+        // Check if both players are defeated
         if (player1Monster->getHealthPoints() == 0 && player2Monster->getHealthPoints() == 0) {
-            std::cout << "\nHurray both lose!" << std::endl;
+            std::cout << "\nHurray, both lose!" << std::endl;
+            break;
         }
     }
 
@@ -145,6 +165,5 @@ int main() {
     delete poisonMonster;
 
     //Note: Monster instances will delete the Item objects in their destructors.
-    //delete randomSkill;
     return 0;
 }

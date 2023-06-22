@@ -4,6 +4,7 @@
 #include "monster.h"
 #include <string>
 #include <vector>
+#include <cstdarg>  // Add this line
 
 class Trainer {
 public:

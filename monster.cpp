@@ -44,15 +44,20 @@ void Monster::attack(Monster* target) {
     if (healthPoints <= 0) { // Check monster health before attacking (strike after death solved!)
         return;
     }
-    int damage = 2 * getLevel() + getAttackPower(); // Default attack damage
 
+    if (hasSkill() && mana >= 20) { // Check if the monster has a skill and enough mana
+        skill->chooseSkill(target);
+        return;
+    }
+
+    int damage = 2 * getLevel() + getAttackPower(); // Default attack damage
 
     // Check if the monster has an equipped item
     if (equippedItem != nullptr) {
-        damage = damage +(  equippedItem->getBonusDamage() - equippedItem->getBonusDefense()); // Add/reduce item damage to the attack
+        damage += (equippedItem->getBonusDamage() - equippedItem->getBonusDefense()); // Add/reduce item damage to the attack
     }
 
-    damage -= target->getDefensePower(); //Default attack damage + item damage
+    damage -= target->getDefensePower(); // Default attack damage + item damage
 
     if (damage > 0) {
         target->takeDamage(damage);
@@ -61,6 +66,7 @@ void Monster::attack(Monster* target) {
         std::cout << name << "'s attack was ineffective against " << target->getName() << ".\n";
     }
 }
+
 
 void Monster::takeDamage(int amount) {
 
@@ -87,14 +93,6 @@ bool Monster::hasSkill() const {
     return skill != nullptr;
 }
 
-Skill* Monster::getSkill() const {
-    return skill;
-}
-
-void Monster::setSkill(Skill* skill) {
-    this->skill = skill;
-}
-
 void Monster::increaseDamage(int amount) {
     attackPower += amount;
    // std::cout << name << " increased its damage by " << amount << ".\n";
@@ -117,6 +115,10 @@ void Monster::increaseDefense(int amount) {
 
 void Monster::decreaseMana(int amount) {
     mana -= amount;
+    if (mana < 0) {
+        mana = 0;
+        std::cout << name << " Has no mana!" << ".\n";
+    }
    // std::cout << name << " decreased its mana by  " << amount << ".\n";
 
 }
@@ -148,7 +150,7 @@ void FireMonster::attack(Monster* target) {
     double  chance= odds();
 
     if (chance <= 0.25) {
-        int criticalDamage =   getLevel() + 1.3 * (getAttackPower());
+        int criticalDamage =   getLevel() + 1.5 * (getAttackPower());
         target->takeDamage(criticalDamage);
         std::cout << getName() << " lands a critical strike on " << target->getName() << " for " << criticalDamage << " damage!\n";
     }
@@ -222,4 +224,5 @@ void PoisonMonster::attack(Monster* target) {
         std::cout << getName() << " Poisons " << target->getName()<< " and base health points are negated! Total damage: " << criticalDamage << "!\n";
     }
 }
+
 
